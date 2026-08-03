@@ -1,5 +1,5 @@
 object Problem1 extends ProblemSolver {
-  override protected def getSolution: String = Seq(3, 5, -15).map(1000/_).sum.toString
+  override protected def getSolution: String = ((1000/3) + (1000/5) - (1000/15)).toString
 
-  @main override protected def print(): Unit = super.print()
+  @main def print1(): Unit = print()
 }

@@ -2,7 +2,7 @@ scalaVersion := "3.8.4"
 
 lazy val root = rootProject
   .settings(
-    name := "ProjectEulerScala3",
+    name := "ProjectEuler",
     libraryDependencies ++= Seq(
       //You can add library dependencies here, for example,
       //"org.scalatest" %% "scalatest" % "3.2.19" % Test,

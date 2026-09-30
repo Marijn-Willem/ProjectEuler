@@ -1,4 +1,5 @@
 scalaVersion := "3.8.4"
+scalacOptions += "-deprecation"
 
 lazy val root = rootProject
   .settings(

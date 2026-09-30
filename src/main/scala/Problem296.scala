@@ -5,18 +5,16 @@ object Problem296 extends ProblemSolver {
 
   override protected def getSolution: String = {
     var count = getCount(1, 1)
-    val queue = mutable.Queue.empty[(Int, Int, Int, Int)]
-    queue.enqueue((0, 1, 1, 1))
+    val queue = mutable.Queue.empty[(Int, Int)]
+    queue.enqueue((1, 2))
 
     while (queue.nonEmpty) {
-      val (a, b, c, d) = queue.dequeue()
-      val ac = a+c
-      val bd = b+d
+      val (a, b) = queue.dequeue()
 
-      count += getCount(ac, bd)
+      count += getCount(a, b)
 
-      val tplLeft = (a, b, ac, bd)
-      val tplRight = (ac, bd, c, d)
+      val tplLeft = (a, a+b)
+      val tplRight = (b, a+b)
 
       if (tupleFilter(tplLeft))
         queue.enqueue(tplLeft)
@@ -28,7 +26,7 @@ object Problem296 extends ProblemSolver {
     count.toString
   }
 
-  private def tupleFilter(tpl: (Int, Int, Int, Int)): Boolean = (3*(tpl._1+tpl._3)) + (6*(tpl._2+tpl._4)) <= limit
+  private def tupleFilter(tpl: (Int, Int)): Boolean = (3*tpl._1) + (6*tpl._2) <= limit
 
   private def getCount(a: Int, b: Int): Long = {
     var count = 0L

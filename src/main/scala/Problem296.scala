@@ -1,45 +1,32 @@
-import scala.collection.mutable
-
 object Problem296 extends ProblemSolver {
   private lazy val limit = 100000
 
-  override protected def getSolution: String = {
-    var count = getCount(1, 1)
-    val queue = mutable.Queue.empty[(Int, Int)]
-    queue.enqueue((1, 2))
+  override protected def getSolution: String = (getCount(1, 1) + iterate(0, 1, 1, 1)).toString
 
-    while (queue.nonEmpty) {
-      val (a, b) = queue.dequeue()
+  private def iterate(ln: Int, ld: Int, rn: Int, rd: Int): Long = {
+    val mn = ln+rn
+    val md = ld+rd
 
-      count += getCount(a, b)
-
-      val tplLeft = (a, a+b)
-      val tplRight = (b, a+b)
-
-      if (tupleFilter(tplLeft))
-        queue.enqueue(tplLeft)
-
-      if (tupleFilter(tplRight))
-        queue.enqueue(tplRight)
-    }
-
-    count.toString
+    if (tupleFilter(mn, md))
+      getCount(mn, md) + iterate(ln, ld, mn, md) + iterate(mn, md, rn, rd)
+    else
+      0
   }
 
-  private def tupleFilter(tpl: (Int, Int)): Boolean = (3*tpl._1) + (6*tpl._2) <= limit
+  private def tupleFilter(a: Int, b: Int): Boolean = 223*a > b && 3*a+6*b <= limit
 
   private def getCount(a: Int, b: Int): Long = {
+    val ab = a+b
     var count = 0L
-    var f = 2
-    var abSum = f*(a+b)
+    var d = if (b==1) 2 else 3
+    var abSum = d*ab
 
-    while (abSum + (f*b) <= limit) {
-      val validC = (f*a) / (a+b)
-      val validCAboveLimit = Math.max((2*abSum)-limit-1, 0) / (a+b)
-
+    while (abSum + (d*b) <= limit) {
+      val validC = (d*a) / ab
+      val validCAboveLimit = Math.max((2*abSum)-limit-1, 0) / ab
       count += (validC-validCAboveLimit).toLong
-      f += 1
-      abSum += (a+b)
+      d += 1
+      abSum += ab
     }
 
     count
